@@ -1,0 +1,21 @@
+import nltk, matplotlib
+
+train_text = nltk.corpus.state_union.raw('1999-Clinton.txt')
+sample_text = nltk.corpus.state_union.raw('2006-GWBush.txt')
+
+cus_tok = nltk.PunktSentenceTokenizer(train_text)
+tokenized = cus_tok.tokenize(sample_text)
+
+def ne():
+    try:
+        for i in tokenized[:5]:
+            words = nltk.word_tokenize(i)
+            tagged = nltk.pos_tag(words)
+            namedEnt = nltk.ne_chunk(tagged, binary = True)
+            namedEnt.draw()
+
+    except Exception as e:
+        print (str(e))
+
+ne()
+
