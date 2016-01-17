@@ -1,0 +1,27 @@
+# Use Chunk sentences on basis of adverbs. 
+
+import nltk,matplotlib
+train_text = nltk.corpus.state_union.raw('1999-Clinton.txt')
+sample_text =nltk.corpus.state_union.raw('2005-GWBush.txt')
+
+cus_tok = nltk.PunketSentenceTokenizer(train_text)
+tokenized = cus_tok.tokenize(sample_text)
+
+def process_content():
+	try:
+		for i in tokenized[:5]:
+			words = nltk.word_tokenize(i)
+			tagged = nltk.pos_tag(words)
+			ChunkGram = r"""RB: {<RB.*>} """
+			ChunkParser = nltk.RegexpParser(ChunkGram)
+			chunked = ChunkParser.parse(tagged)
+
+			print chunked
+			for subtree in chunked.subtrees(filter = lambda t:t.label()=='Chunk'):
+				print subtree
+			chunked.draw()
+
+	except Exception as e:
+		print (str(e))
+
+process_content()
